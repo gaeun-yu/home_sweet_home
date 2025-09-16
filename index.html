@@ -70,8 +70,10 @@
     const w = el.naturalWidth;
     const h = el.naturalHeight;
     el.style.left = (cx - w/2) + 'px';
-    el.style.top  = (cy - h/2) + 'px';
+    el.style.top = (cy - h/2) + 'px';
   }
+
+  // 이 부분만 남겨두고 나머지는 지워주세요.
   window.onload = function() {
     place('tv', 831, 70);
     place('fire', 773, 480);
@@ -80,19 +82,15 @@
 
     fit();
   };
-  
-  place('window', 0, 0);
-  place('tv', 831, 70);
-  place('fire', 773, 480);
-  place('music', 607, 568);
 
+  // 나머지 코드는 그대로 두세요.
   function togglePlay(id){
     const a = document.getElementById(id);
     if (a.paused) a.play(); else { a.pause(); a.currentTime = 0; }
   }
-  document.getElementById('tv').onclick     = () => togglePlay('audio-tv');
-  document.getElementById('fire').onclick   = () => togglePlay('audio-fire');
-  document.getElementById('music').onclick  = () => togglePlay('audio-music');
+  document.getElementById('tv').onclick = () => togglePlay('audio-tv');
+  document.getElementById('fire').onclick = () => togglePlay('audio-fire');
+  document.getElementById('music').onclick = () => togglePlay('audio-music');
   document.getElementById('window').onclick = () => togglePlay('audio-window');
 
   function fit() {
@@ -101,9 +99,9 @@
     document.getElementById('stage').style.transform = `scale(${s})`;
   }
   window.addEventListener('resize', fit);
-  fit();
+  // 이 부분은 지워주세요 -> fit();
 
-    function togglePlayWithImage(id, audioId, activeImg, defaultImg) {
+  function togglePlayWithImage(id, audioId, activeImg, defaultImg) {
     const audio = document.getElementById(audioId);
     const el = document.getElementById(id);
 
@@ -128,11 +126,10 @@
     togglePlayWithImage('fire', 'audio-fire', 'fire_active.png', 'fire.png');
 
   document.getElementById('window').onclick = () =>
-      togglePlayWithImage('window', 'audio-window', 'window_active.png', 'window.png');
+    togglePlayWithImage('window', 'audio-window', 'window_active.png', 'window.png');
 
   document.getElementById('fire').onclick = () =>
-      togglePlayWithImage('fire', 'audio-fire', 'fire_active.png', 'fire.png');
-
+    togglePlayWithImage('fire', 'audio-fire', 'fire_active.png', 'fire.png');
 
   function togglePlay(id){
     const a = document.getElementById(id);
@@ -140,8 +137,7 @@
     else { a.pause(); a.currentTime = 0; }
   }
 
-
- let noteInterval = null;
+  let noteInterval = null;
 
   function toggleMusicWithNotes(id, audioId) {
     const audio = document.getElementById(audioId);
@@ -173,7 +169,7 @@
 
     const rect = targetEl.getBoundingClientRect();
     note.style.left = rect.left + rect.width/2 + (Math.random()*40-20) + "px";
-    note.style.top  = rect.top + "px";
+    note.style.top = rect.top + "px";
 
     document.body.appendChild(note);
 
@@ -189,7 +185,6 @@
   document.getElementById('audio-fire').volume = 0.8;
   document.getElementById('audio-music').volume = 0.4;
   document.getElementById('audio-window').volume = 1.0;
-
 </script>
 </body>
 </html>
