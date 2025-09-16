@@ -54,12 +54,6 @@
   <audio id="audio-window" src="window.mp3"></audio>
 
 <script>
-  window.onload = () => {
-  place('window', 0, 0);
-  place('tv', 831, 70);
-  place('fire', 773, 480);
-  place('music', 607, 568);
-};
   
   function place(id, cx, cy) {
     const el = document.getElementById(id);
@@ -68,7 +62,14 @@
     el.style.left = (cx - w/2) + 'px';
     el.style.top  = (cy - h/2) + 'px';
   }
-
+  
+  window.onload = () => {
+  place('window', 0, 0);
+  place('tv', 831, 70);
+  place('fire', 773, 480);
+  place('music', 607, 568);
+};
+  
   function togglePlay(id){
     const a = document.getElementById(id);
     if (a.paused) a.play(); else { a.pause(); a.currentTime = 0; }
