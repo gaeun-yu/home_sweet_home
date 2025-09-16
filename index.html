@@ -72,7 +72,14 @@
     el.style.left = (cx - w/2) + 'px';
     el.style.top  = (cy - h/2) + 'px';
   }
+  window.onload = function() {
+    place('tv', 831, 70);
+    place('fire', 773, 480);
+    place('music', 607, 568);
+    place('window', 0, 0);
 
+    fit();
+  };
   
   place('window', 0, 0);
   place('tv', 831, 70);
