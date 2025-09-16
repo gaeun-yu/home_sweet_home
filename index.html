@@ -54,32 +54,29 @@
   <audio id="audio-window" src="window.mp3"></audio>
 
 <script>
-  
   function place(id, cx, cy) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const w = el.naturalWidth;
-  const h = el.naturalHeight;
-  if (w === 0 || h === 0) {
-    console.warn(id, '이미지 크기 로딩 안됨');
-    return;
+    const el = document.getElementById(id);
+    const w = el.naturalWidth;
+    const h = el.naturalHeight;
+    el.style.left = (cx - w/2) + 'px';
+    el.style.top  = (cy - h/2) + 'px';
   }
-  el.style.left = (cx - w/2) + 'px';
-  el.style.top  = (cy - h/2) + 'px';
- }
 
-  window.onload = () => {
-    place('window', 0, 0);
-    place('tv', 831, 70);
-    place('fire', 773, 480);
-    place('music', 607, 568);
-  };
   
+  place('window', 0, 0);
+  place('tv', 831, 70);
+  place('fire', 773, 480);
+  place('music', 607, 568);
+
   function togglePlay(id){
     const a = document.getElementById(id);
     if (a.paused) a.play(); else { a.pause(); a.currentTime = 0; }
   }
-  
+  document.getElementById('tv').onclick     = () => togglePlay('audio-tv');
+  document.getElementById('fire').onclick   = () => togglePlay('audio-fire');
+  document.getElementById('music').onclick  = () => togglePlay('audio-music');
+  document.getElementById('window').onclick = () => togglePlay('audio-window');
+
   function fit() {
     const W = 1536, H = 1024;
     const s = Math.min(window.innerWidth / W, window.innerHeight / H);
@@ -135,6 +132,7 @@
     if (audio.paused) {
       audio.play();
 
+      // 일정 간격으로 음표 생성
       noteInterval = setInterval(() => {
         createNote(el);
       }, 500);
