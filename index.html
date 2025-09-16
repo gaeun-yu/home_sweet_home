@@ -14,7 +14,18 @@
     height:100vh;
     overflow:hidden;
   }
-
+   #stage {
+      position: relative;
+      width: var(--W)px;
+      height: var(--H)px;
+      transform-origin: top left;
+    }
+      #bg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+  
   .obj {
     position:absolute; cursor:pointer;
     transition: transform .15s ease;
