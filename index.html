@@ -4,184 +4,186 @@
 <meta charset="UTF-8" />
 <title>Living Room Sound Mixer</title>
 <style>
-  :root { --W: 1536; --H: 1024; }
+  :root { --W: 1536; --H: 1024; }
 
-  body {
-    margin: 0;
-    background:#111;
-    display:grid;
-    place-items:center;
-    height:100vh;
-    overflow:hidden;
-  }
-  #stage {
-    position: relative;
-    width: var(--W)px;
-    height: var(--H)px;
-    transform-origin: top left;
-  }
-  #bg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  
-  .obj {
-    position:absolute; cursor:pointer;
-    transition: transform .15s ease;
-  }
-  .obj:hover { transform: scale(1.04); }
-  #music:hover { transform: scale(1.08); }
-  #music { transform-origin: center bottom; }
+   body {
+    margin: 0;
+    background:#111;
+    display:grid;
+    place-items:center;
+    height:100vh;
+    overflow:hidden;
+  }
 
-  .note {
-    position: absolute;
-    font-size: 24px;
-    color: #ff69b4;
-    animation: floatUp 2s ease-out forwards;
-    pointer-events: none;
-  }
+    #stage {
+    position: relative;
+    width: var(--W)px;
+    height: var(--H)px;
+    transform-origin: top left;
+  }
+    #bg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
-  @keyframes floatUp {
-    0%   { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-  }
+  .obj {
+    position:absolute; cursor:pointer;
+    transition: transform .15s ease;
+  }
+  .obj:hover { transform: scale(1.04); }
+  #music:hover { transform: scale(1.08); }
+  #music { transform-origin: center bottom; }
+
+  .note {
+    position: absolute;
+    font-size: 24px;
+    color: #ff69b4;
+    animation: floatUp 2s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+  }
 </style>
 </head>
 <body>
 
-  <div id="stage">
-    <img id="bg" src="interior.png" alt="background" />
+  <div id="stage">
+    <img id="bg" src="interior.png" alt="background" />
 
-    <img id="tv" class="obj" src="tv.png" alt="tv" />
-    <img id="fire" class="obj" src="fire.png" alt="fireplace" />
-    <img id="music" class="obj" src="music.png" alt="turntable" />
-    <img id="window" class="obj" src="window.png" alt="window" />
-  </div>
+    <img id="tv" class="obj" src="tv.png" alt="tv" />
+    <img id="fire" class="obj" src="fire.png" alt="fireplace" />
+    <img id="music" class="obj" src="music.png" alt="turntable" />
+    <img id="window" class="obj" src="window.png" alt="window" />
+  </div>
 
-  <audio id="audio-tv" src="tv.mp3"></audio>
-  <audio id="audio-fire" src="fire.mp3"></audio>
-  <audio id="audio-music" src="music.mp3"></audio>
-  <audio id="audio-window" src="window.mp3"></audio>
+  <audio id="audio-tv" src="tv.mp3"></audio>
+  <audio id="audio-fire" src="fire.mp3"></audio>
+  <audio id="audio-music" src="music.mp3"></audio>
+  <audio id="audio-window" src="window.mp3"></audio>
 
 <script>
-  function place(id, cx, cy) {
-    const el = document.getElementById(id);
-    const w = el.naturalWidth;
-    const h = el.naturalHeight;
-    el.style.left = (cx - w/2) + 'px';
-    el.style.top = (cy - h/2) + 'px';
-  }
-  
-  window.onload = function() {
-    place('tv', 831, 70);
-    place('fire', 773, 480);
-    place('music', 607, 568);
-    place('window', 0, 0);
+  function place(id, cx, cy) {
+    const el = document.getElementById(id);
+    const w = el.naturalWidth;
+    const h = el.naturalHeight;
+    el.style.left = (cx - w/2) + 'px';
+    el.style.top  = (cy - h/2) + 'px';
+  }
 
-    fit();
-  };
+  
+  place('window', 0, 0);
+  place('tv', 831, 70);
+  place('fire', 773, 480);
+  place('music', 607, 568);
 
-  function togglePlay(id){
-    const a = document.getElementById(id);
-    if (a.paused) a.play(); else { a.pause(); a.currentTime = 0; }
-  }
-  document.getElementById('tv').onclick = () => togglePlay('audio-tv');
-  document.getElementById('fire').onclick = () => togglePlay('audio-fire');
-  document.getElementById('music').onclick = () => togglePlay('audio-music');
-  document.getElementById('window').onclick = () => togglePlay('audio-window');
+  function togglePlay(id){
+    const a = document.getElementById(id);
+    if (a.paused) a.play(); else { a.pause(); a.currentTime = 0; }
+  }
+  document.getElementById('tv').onclick     = () => togglePlay('audio-tv');
+  document.getElementById('fire').onclick   = () => togglePlay('audio-fire');
+  document.getElementById('music').onclick  = () => togglePlay('audio-music');
+  document.getElementById('window').onclick = () => togglePlay('audio-window');
 
-  function fit() {
-    const W = 1536, H = 1024;
-    const s = Math.min(window.innerWidth / W, window.innerHeight / H);
-    document.getElementById('stage').style.transform = `scale(${s})`;
-  }
-  window.addEventListener('resize', fit);
+  function fit() {
+    const W = 1536, H = 1024;
+    const s = Math.min(window.innerWidth / W, window.innerHeight / H);
+    document.getElementById('stage').style.transform = `scale(${s})`;
+  }
+  window.addEventListener('resize', fit);
+  fit();
 
-  function togglePlayWithImage(id, audioId, activeImg, defaultImg) {
-    const audio = document.getElementById(audioId);
-    const el = document.getElementById(id);
+    function togglePlayWithImage(id, audioId, activeImg, defaultImg) {
+    const audio = document.getElementById(audioId);
+    const el = document.getElementById(id);
 
-    if (audio.paused) {
-      audio.play();
-      el.src = activeImg;
+    if (audio.paused) {
+      audio.play();
+      el.src = activeImg;
 
-      audio.onended = () => {
-        el.src = defaultImg;
-      };
-    } else {
-      audio.pause();
-      audio.currentTime = 0;
-      el.src = defaultImg;
-    }
-  }
+      audio.onended = () => {
+        el.src = defaultImg;
+      };
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      el.src = defaultImg;
+    }
+  }
 
-  document.getElementById('tv').onclick = () =>
-    togglePlayWithImage('tv', 'audio-tv', 'tv.gif', 'tv.png');
+  document.getElementById('tv').onclick = () =>
+    togglePlayWithImage('tv', 'audio-tv', 'tv.gif', 'tv.png');
 
-  document.getElementById('fire').onclick = () =>
-    togglePlayWithImage('fire', 'audio-fire', 'fire_active.png', 'fire.png');
+  document.getElementById('fire').onclick = () =>
+    togglePlayWithImage('fire', 'audio-fire', 'fire_active.png', 'fire.png');
 
-  document.getElementById('window').onclick = () =>
-    togglePlayWithImage('window', 'audio-window', 'window_active.png', 'window.png');
+  document.getElementById('window').onclick = () =>
+      togglePlayWithImage('window', 'audio-window', 'window_active.png', 'window.png');
 
-  document.getElementById('fire').onclick = () =>
-    togglePlayWithImage('fire', 'audio-fire', 'fire_active.png', 'fire.png');
+  document.getElementById('fire').onclick = () =>
+      togglePlayWithImage('fire', 'audio-fire', 'fire_active.png', 'fire.png');
 
-  function togglePlay(id){
-    const a = document.getElementById(id);
-    if (a.paused) a.play();
-    else { a.pause(); a.currentTime = 0; }
-  }
 
-  let noteInterval = null;
+  function togglePlay(id){
+    const a = document.getElementById(id);
+    if (a.paused) a.play();
+    else { a.pause(); a.currentTime = 0; }
+  }
 
-  function toggleMusicWithNotes(id, audioId) {
-    const audio = document.getElementById(audioId);
-    const el = document.getElementById(id);
 
-    if (audio.paused) {
-      audio.play();
+ let noteInterval = null;
 
-      // 일정 간격으로 음표 생성
-      noteInterval = setInterval(() => {
-        createNote(el);
-      }, 500);
+  function toggleMusicWithNotes(id, audioId) {
+    const audio = document.getElementById(audioId);
+    const el = document.getElementById(id);
 
-      audio.onended = () => {
-        clearInterval(noteInterval);
-      };
+    if (audio.paused) {
+      audio.play();
 
-    } else {
-      audio.pause();
-      audio.currentTime = 0;
-      clearInterval(noteInterval);
-    }
-  }
+      // 일정 간격으로 음표 생성
+      noteInterval = setInterval(() => {
+        createNote(el);
+      }, 500);
 
-  function createNote(targetEl) {
-    const note = document.createElement("div");
-    note.className = "note";
-    note.innerText = Math.random() > 0.8 ? "🎵" : "🎶";
+      audio.onended = () => {
+        clearInterval(noteInterval);
+      };
 
-    const rect = targetEl.getBoundingClientRect();
-    note.style.left = rect.left + rect.width/2 + (Math.random()*40-20) + "px";
-    note.style.top = rect.top + "px";
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      clearInterval(noteInterval);
+    }
+  }
 
-    document.body.appendChild(note);
+  function createNote(targetEl) {
+    const note = document.createElement("div");
+    note.className = "note";
+    note.innerText = Math.random() > 0.8 ? "🎵" : "🎶";
 
-    setTimeout(() => {
-      note.remove();
-    }, 1500);
-  }
+    const rect = targetEl.getBoundingClientRect();
+    note.style.left = rect.left + rect.width/2 + (Math.random()*40-20) + "px";
+    note.style.top  = rect.top + "px";
 
-  document.getElementById('music').onclick = () =>
-    toggleMusicWithNotes('music', 'audio-music');
+    document.body.appendChild(note);
 
-  document.getElementById('audio-tv').volume = 0.4;
-  document.getElementById('audio-fire').volume = 0.8;
-  document.getElementById('audio-music').volume = 0.4;
-  document.getElementById('audio-window').volume = 1.0;
+    setTimeout(() => {
+      note.remove();
+    }, 1500);
+  }
+
+  document.getElementById('music').onclick = () =>
+    toggleMusicWithNotes('music', 'audio-music');
+
+  document.getElementById('audio-tv').volume = 0.4;
+  document.getElementById('audio-fire').volume = 0.8;
+  document.getElementById('audio-music').volume = 0.4;
+  document.getElementById('audio-window').volume = 1.0;
+
 </script>
 </body>
 </html>
